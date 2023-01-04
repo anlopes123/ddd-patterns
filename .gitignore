@@ -1,0 +1,17 @@
+node_modules/.bin/esparse
+node_modules/.bin/esvalidate
+node_modules/.bin/js-yaml
+node_modules/.bin/mkdirp
+node_modules/.bin/resolve
+node_modules/.bin/semver
+node_modules/.bin/tsc
+node_modules/.bin/tslint
+node_modules/.bin/tsserver
+node_modules/@babel/code-frame/LICENSE
+node_modules/@babel/code-frame/package.json
+node_modules/@babel/code-frame/README.md
+node_modules/@babel/code-frame/lib/index.js
+node_modules/@babel/helper-validator-identifier/LICENSE
+node_modules/@babel/helper-validator-identifier/package.json
+node_modules/@babel/helper-validator-identifier/README.md
+node_modules
