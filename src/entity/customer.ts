@@ -4,16 +4,15 @@ import Address from "./address";
    Esta entidade é focada em negócio não precisa ter getters e setters, somente 
    o que faz sentido para o seu negócio.
  */
-class Customer {
+export default class Customer {
     _id: string;
     _name: string;
     _address!: Address;
     _activate: boolean = true;
 
-    constructor(id: string, name: string, address: Address) {
+    constructor(id: string, name: string) {
         this._id=id;
         this._name=name;
-        this._address=address;
         this.validate();
     }
 
