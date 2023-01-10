@@ -1,4 +1,3 @@
-import { it } from "node:test"
 
 describe("Customer Unit test", ()=>{
     it("Shoud get 1 as result", ()=>{
