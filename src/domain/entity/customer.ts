@@ -9,12 +9,17 @@ export default class Customer {
     private _name: string;
     private _address!: Address;
     private _activate: boolean = true;
+    private _rewardPoint : number = 0;
 
     get name(): string {
         return this._name;
     }
     get Address(): Address {
         return this._address;
+    }
+
+    get id() : string {
+        return this._id;
     }
 
     set Address(address: Address) {
@@ -40,6 +45,13 @@ export default class Customer {
             throw new Error("Name is required");
         }
         
+    }
+    get rewardPoint(): number {
+        return this._rewardPoint;
+    }
+
+    addRewardPoint(points: number) {
+        this._rewardPoint += points;
     }
 
     changeName(name: string) {
