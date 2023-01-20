@@ -60,7 +60,7 @@ describe("Customer repository unit test", ()=>{
         expect(customerModel.toJSON()).toStrictEqual({
             id: "1",
             name: customer.name,
-            active: customer.isActive,
+            active: customer.isActive(),
             rewardPoints: customer.rewardPoint,
             street: address.street,
             number: address.number,
@@ -71,30 +71,43 @@ describe("Customer repository unit test", ()=>{
 
     });
 
-    // it("Should find a product", async() => {
-    //     const productRepository = new ProductRepository();
-    //     const product = new Product("1","Product 1", 100);
-    //     await productRepository.create(product);
+    it("Should find a customer", async() => {
+        const customerRepository = new CustomerRepository();
+        const customer = new Customer("1","Cutomer 1");
+        const address = new Address("Street 1", 1, "zipcode 1", "City 1");
+        customer.changeAdrress(address);
+        await customerRepository.create(customer);
 
-    //     const productModel = await ProductModel.findOne({where: { id: "1" } });
-    //     const findProduct = await productRepository.find("1");
-    //     expect(productModel.toJSON()).toStrictEqual({
-    //         id: findProduct.id,
-    //         name: findProduct.name,
-    //         price: findProduct.price,
-    //     });
+        const constomerResult = await customerRepository.find(customer.id);
+        expect(customer).toEqual(constomerResult);
 
-    // });
-    // it("shold find all a product", async() => {
-    //     const productRepository = new ProductRepository();
-    //     const product = new Product("1", "Product 1",  100);
-    //     await productRepository.create(product);
-    //     const product1 = new Product("2", "Product 2",  200);
-    //     await productRepository.create(product1);
+    });
 
-    //     const foundProducts = await productRepository.findAll();
-    //     const products = [product, product1];
+    it("Should throw an error when customer is not found", async()=>{
+        const customerRepository = new CustomerRepository();
+        expect(async() =>{
+            await customerRepository.find("456ABC");
+        }).rejects.toThrow("Customer not found");
+    })
+    it("shold find all a customer", async() => {
+        const customerRepository = new CustomerRepository();
+        const customer = new Customer("1", "Customer 1");
+        const address = new Address("Street 1", 1, "zipcode 1", "City 1");
+        customer.changeAdrress(address);
+        customer.activate();
 
-    //     expect(products).toEqual(foundProducts);
-    // });
+        await customerRepository.create(customer);
+        const customer1 = new Customer("2", "Customer 2");
+        const address1 = new Address("Street 2", 1, "zipcode 2", "City 2");
+        customer1.changeAdrress(address1);
+        customer1.addRewardPoint(20);
+        await customerRepository.create(customer1);
+
+        const customers = await customerRepository.findAll();
+        
+        expect(customers).toHaveLength(2);
+        expect(customers).toContainEqual(customer);
+        expect(customers).toContainEqual(customer1);
+        
+    });
 });
