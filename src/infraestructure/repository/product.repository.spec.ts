@@ -72,8 +72,20 @@ describe("Product repository unit test", ()=>{
         expect(productModel.toJSON()).toStrictEqual({
             id: findProduct.id,
             name: findProduct.name,
-            price: findProduct.pricessssss,
+            price: findProduct.price,
         });
 
-    })
+    });
+    it("shold find all a product", async() => {
+        const productRepository = new ProductRepository();
+        const product = new Product("1", "Product 1",  100);
+        await productRepository.create(product);
+        const product1 = new Product("2", "Product 2",  200);
+        await productRepository.create(product1);
+
+        const foundProducts = await productRepository.findAll();
+        const products = [product, product1];
+
+        expect(products).toEqual(foundProducts);
+    });
 });

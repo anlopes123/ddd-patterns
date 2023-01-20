@@ -14,16 +14,15 @@ export default class Customer {
     get name(): string {
         return this._name;
     }
-    get Address(): Address {
+    get address(): Address {
         return this._address;
     }
 
     get id() : string {
         return this._id;
     }
-
-    set Address(address: Address) {
-        this._address = address;
+    changeAdrress(addrees: Address) {
+        this._address= addrees
     }
 
     constructor(id: string, name: string) {
