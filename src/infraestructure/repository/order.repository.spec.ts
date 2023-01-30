@@ -18,7 +18,7 @@ describe("Order repository unit test", ()=>{
         sequelize = new Sequelize({
             dialect: 'sqlite',
             storage: ':memory:',
-            logging: false,
+            logging: true,
             sync: {force: true},            
         });
 
@@ -178,8 +178,50 @@ describe("Order repository unit test", ()=>{
           total: orderfind.total(),  
         })
 
-        
-
     })
+    it("shold find all a order", async() => {
+
+        const customerRepository = new CustomerRepository();
+        const customer = new Customer("123", "Customer1");
+        const adrress = new Address("Street 1", 1, "Zipcode 1", "City 1");
+        customer.changeAdrress(adrress);
+        await customerRepository.create(customer);
+
+        const productRepository = new ProductRepository();
+        const product = new Product("123", "Product 1", 10);
+        await productRepository.create(product);
+
+        const orderItem = new OrderItem(
+            "1",
+            product.name,
+            product.price,
+            product.id,
+            2
+        );
+
+
+        const orderItem1 = new OrderItem(
+            "2",
+            product.name,
+            product.price,
+            product.id,
+            4
+        );
+
+
+        const order = new Order("123", customer.id, [orderItem])
+        const orderRepository = new OrderRepository();
+        await orderRepository.create(order);
+
+        const order1 = new Order("124", customer.id, [orderItem, orderItem1])
+        await orderRepository.create(order1);
+
+        const foundOrders  = await orderRepository.findAll();
+
+        const orders = [order, order1];
+
+
+        expect(orders).toEqual(foundOrders);
+    });
    
 });

@@ -21,8 +21,8 @@ export default class OrderRepository implements OrderRepositoryInterface  {
                 price: item.price,
                 product_id: item.productId,
                 quantity: item.quantity,
-            })),
-         
+                order_id: entity.id,
+            })),       
 
         },
         {
@@ -57,7 +57,7 @@ export default class OrderRepository implements OrderRepositoryInterface  {
             where: {id: id},
             include: ["items"],
         });       
-        let orderItems : OrderItem[];
+        let orderItems : Array<OrderItem> = [];
         orderModel.items.forEach((item)=> {
              const orit = new OrderItem(item.id, item.name, item.price, item.product_id, item.quantity);
              orderItems.push(orit);   
@@ -66,7 +66,22 @@ export default class OrderRepository implements OrderRepositoryInterface  {
             
     }
     async findAll(): Promise<Order[]> {
-        throw new Error("Method not implemented.");
+        const ordersModels = await OrderModel.findAll({include:["items"]});
+        let orders : Order[]= [];
+        let orderItems : OrderItem[] = [];
+        ordersModels.forEach((orderModel) =>{
+            orderModel.items.forEach((orderItemModel) =>{
+                let orderItem = new OrderItem(orderItemModel.id, 
+                             orderItemModel.name,
+                             orderItemModel.price, 
+                             orderItemModel.product_id, 
+                             orderItemModel.quantity);
+                orderItems.push(orderItem);
+            })
+            let order = new Order(orderModel.id, orderModel.customer_id, orderItems);
+            orders.push(order);        
+        });
+        return orders;
     }
     
 }
