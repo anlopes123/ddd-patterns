@@ -18,7 +18,7 @@ describe("Order repository unit test", ()=>{
         sequelize = new Sequelize({
             dialect: 'sqlite',
             storage: ':memory:',
-            logging: true,
+            logging: false,
             sync: {force: true},            
         });
 
@@ -182,13 +182,13 @@ describe("Order repository unit test", ()=>{
     it("shold find all a order", async() => {
 
         const customerRepository = new CustomerRepository();
-        const customer = new Customer("123", "Customer1");
+        const customer = new Customer("1", "Customer1");
         const adrress = new Address("Street 1", 1, "Zipcode 1", "City 1");
         customer.changeAdrress(adrress);
         await customerRepository.create(customer);
 
         const productRepository = new ProductRepository();
-        const product = new Product("123", "Product 1", 10);
+        const product = new Product("2", "Product 2", 10);
         await productRepository.create(product);
 
         const orderItem = new OrderItem(
@@ -208,18 +208,27 @@ describe("Order repository unit test", ()=>{
             4
         );
 
+        const orderItem2 = new OrderItem(
+            "3",
+            product.name,
+            product.price,
+            product.id,
+            1
+        );
 
-        const order = new Order("123", customer.id, [orderItem])
+        
+        const order1 = new Order("120", customer.id, [orderItem])
         const orderRepository = new OrderRepository();
-        await orderRepository.create(order);
-
-        const order1 = new Order("124", customer.id, [orderItem, orderItem1])
         await orderRepository.create(order1);
+
+        const order2 = new Order("119", customer.id, [orderItem1, orderItem2])
+        await orderRepository.create(order2);
+
+        //const order = await orderRepository.find("123");
 
         const foundOrders  = await orderRepository.findAll();
 
-        const orders = [order, order1];
-
+        const orders = [order1, order2];
 
         expect(orders).toEqual(foundOrders);
     });
