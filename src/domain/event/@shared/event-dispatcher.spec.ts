@@ -1,4 +1,5 @@
 import SendEmailWhenProductIsCreatedHandler from "../product/handler/send-email-when-product-is-created.handler";
+import ProductCreatedEvent from "../product/product-created.event";
 import EventDispatcher from "./event-dispatcher";
 
 describe("Domain Events tests", ()=>{
@@ -43,5 +44,26 @@ describe("Domain Events tests", ()=>{
       expect(eventDispatcher.getEventHandlers["ProductCreatedEvent"]).toBeUndefined();
 
 
- }); 
+    }); 
+
+   it("Should notify all event handler", ()=>{
+      const eventDispatcher = new EventDispatcher();
+      const eventHandler = new SendEmailWhenProductIsCreatedHandler();
+      const spyEventHandler= jest.spyOn(eventHandler, "handler");
+
+      eventDispatcher.register("ProductCreatedEvent", eventHandler); 
+
+      expect(eventDispatcher.getEventHandlers["ProductCreatedEvent"][0]).toMatchObject(eventHandler);
+
+      const producttCreatedEvent = new ProductCreatedEvent({
+         name: "Product 1",
+         description: "Product 1 Description",
+         price: 10,
+      });
+
+      eventDispatcher.notify(producttCreatedEvent);
+
+      expect(spyEventHandler).toHaveBeenCalled();
+
+   });
 });

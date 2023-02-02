@@ -1,3 +1,6 @@
+import CustomerCreatedEvent from "../event/customer/customer-created.event";
+import EnviaConsoleLog1Handler from "../event/customer/handler/send-console-log1-when-customer-created.handle";
+import EnviaConsoleLog2Handler from "../event/customer/handler/send-console-log2-when-customer-created.handler";
 import Address from "./address";
 import Customer from "./customer";
 
@@ -21,7 +24,7 @@ describe("Customer Unit test", ()=>{
     it("Shoud activate customer", ()=>{
         const customer = new Customer("1", "Customer 1");
         const address = new Address("Street 1", 123, "123745-456", "São Paulo");
-        customer.Address = address;
+        customer.changeAdrress(address);
         customer.activate();
         expect(customer.isActive()).toBe(true);
     });
@@ -49,6 +52,24 @@ describe("Customer Unit test", ()=>{
         customer.addRewardPoint(10);
         expect(customer.rewardPoint).toBe(20);
 
-    })
+    });
+    it("should notify event customer created", ()=>{
+
+      const spyEventHandler= jest.spyOn(Customer.getEventHandler1(), "handler");
+      const spyEventHandler1= jest.spyOn(Customer.getEventHandler2(), "handler");
+      const customer = new Customer("1", "Client 1");
+        
+       expect(spyEventHandler).toHaveBeenCalled();
+       expect(spyEventHandler1).toHaveBeenCalled();
+    });
+
+    it("should notify event customer changeAdress", ()=>{
+
+        const spyEventHandler= jest.spyOn(Customer.getEventHandlerChangeAdress(), "handler");
+        const customer = new Customer("1", "Client 1");
+        const addrees = new Address("Rua H", 1, "74937-230", "Goiânia");
+        customer.changeAdrress(addrees);  
+        expect(spyEventHandler).toHaveBeenCalled();         
+      });
 
 });

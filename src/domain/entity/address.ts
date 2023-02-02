@@ -30,6 +30,9 @@ export default class Address {
         return this._city;
     }
     
+    toString(): string {
+        return this._street + " " + this._number + " " + this._zip + " " + this._city;
+    }
 
 
     validate() {
