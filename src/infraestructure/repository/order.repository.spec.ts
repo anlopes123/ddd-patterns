@@ -44,9 +44,9 @@ describe("Order repository unit test", ()=>{
         const orderItem = new OrderItem(
             "1",
             product.name,
+            2,
             product.price,
-            product.id,
-            2
+            product.id,            
         );
 
         const order = new Order("123", customer.id, [orderItem])
@@ -90,9 +90,9 @@ describe("Order repository unit test", ()=>{
         const orderItem = new OrderItem(
             "1",
             product.name,
+            1,
             product.price,
-            product.id,
-            1
+            product.id,            
         );
 
         const order = new Order("123", customer.id, [orderItem])
@@ -104,7 +104,7 @@ describe("Order repository unit test", ()=>{
             include: ["items"],
         });
 
-        const orderItemUpdate = new OrderItem("1", "Product 1",  20, "123", 2)
+        const orderItemUpdate = new OrderItem("1", "Product 1", 2, 20, "123");
         const orderUpdate = new Order("123", "123", [orderItemUpdate]);
 
         await orderRepository.update(orderUpdate);
@@ -147,9 +147,9 @@ describe("Order repository unit test", ()=>{
         const orderItem = new OrderItem(
             "1",
             product.name,
+            2,
             product.price,
-            product.id,
-            2
+            product.id,            
         );
 
         const order = new Order("123", customer.id, [orderItem])
@@ -194,26 +194,26 @@ describe("Order repository unit test", ()=>{
         const orderItem = new OrderItem(
             "1",
             product.name,
+            2,
             product.price,
-            product.id,
-            2
+            product.id,            
         );
 
 
         const orderItem1 = new OrderItem(
             "2",
             product.name,
+            4,
             product.price,
-            product.id,
-            4
+            product.id,            
         );
 
         const orderItem2 = new OrderItem(
             "3",
             product.name,
+            1,
             product.price,
-            product.id,
-            1
+            product.id,            
         );
 
         

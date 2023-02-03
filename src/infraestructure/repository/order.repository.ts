@@ -59,7 +59,7 @@ export default class OrderRepository implements OrderRepositoryInterface  {
         });       
         let orderItems : Array<OrderItem> = [];
         orderModel.items.forEach((item)=> {
-             const orit = new OrderItem(item.id, item.name, item.price, item.product_id, item.quantity);
+             const orit = new OrderItem(item.id, item.name, item.quantity, item.price, item.product_id);
              orderItems.push(orit);   
         });        
         return  new Order(orderModel.id, orderModel.customer_id, orderItems);
@@ -72,10 +72,10 @@ export default class OrderRepository implements OrderRepositoryInterface  {
             let orderItems : OrderItem[] = [];
             orderModel.items.forEach((orderItemModel) =>{
                 let orderItem = new OrderItem(orderItemModel.id, 
-                             orderItemModel.name,
+                             orderItemModel.name,                              
+                             orderItemModel.quantity,
                              orderItemModel.price, 
-                             orderItemModel.product_id, 
-                             orderItemModel.quantity);
+                             orderItemModel.product_id);
                 orderItems.push(orderItem);
             });
             let order = new Order(orderModel.id, orderModel.customer_id, orderItems);

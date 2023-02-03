@@ -1,6 +1,7 @@
-import Customer from "../domain/entity/customer";
-import Order from "../domain/entity/order";
-import OrderItem from "../domain/entity/order_items"
+
+import Customer from "../entity/customer";
+import Order from "../entity/order";
+import OrderItem from "../entity/order_items";
 import OrderService from "./order.service";
 
 describe("Order service unit tests", ()=>{
@@ -16,7 +17,7 @@ describe("Order service unit tests", ()=>{
         expect(total).toBe(500);
     })
     it("should place an order", () => {
-        const customer = new Customer("c1", "João", "");
+        const customer = new Customer("c1", "João");
         const item1 = new OrderItem("o1","Item 1", 1, 10, "p1");
 
         const order = OrderService.placeOrder(customer, [item1]);

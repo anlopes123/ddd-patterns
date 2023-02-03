@@ -4,14 +4,13 @@ export default class OrderItem {
     private _name: string;
     private _price: number;
     private _quantity: number;
-    private _order_id: string;
-    constructor(id: string, name: string, price: number, productId: string, quantity: number ) {
+    constructor(id: string, name: string, quantity: number, price: number, productId: string ) {
         this._id = id;
         this._name = name;
         this._price = price;
         this._quantity = quantity;
         this._productId=productId;
-        this._order_id;
+       
     }
 
     get id() : string{
