@@ -45,12 +45,13 @@ export default class Customer {
 
     changeAdrress(addrees: Address) {
         this._address= addrees;
-        const customerChangeAdreeEvent = new CustomerChangeAdressEvent({
+        this._eventDispatcher.register("CustomerChangeAdressEvent", Customer._eventHandlerAdress);
+        const customerChangeAdressEvent = new CustomerChangeAdressEvent({
             id: this._id,
             name: this._name,
             endereco: this._address.toString(),
         })
-        this._eventDispatcher.notify(customerChangeAdreeEvent);
+        this._eventDispatcher.notify(customerChangeAdressEvent);
     }
 
     constructor(id: string, name: string) {
@@ -63,7 +64,7 @@ export default class Customer {
         this._eventDispatcher.register("CustomerCreatedEvent", Customer._eventHandler1);
         this._eventDispatcher.register("CustomerCreatedEvent", Customer._eventHandler2);
         
-        this._eventDispatcher.register("CustomerChangeAdressEvent", Customer._eventHandlerAdress);
+       
 
         const customerCreatedEvent = new CustomerCreatedEvent({
             id: this._id,
